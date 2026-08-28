@@ -219,6 +219,18 @@
             border: 1px solid #fecaca;
         }
 
+        .alert-success {
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .alert-info {
+            background: #eff6ff;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+        }
+
         /* Misc text */
         .auth-alt {
             margin-top: 20px;

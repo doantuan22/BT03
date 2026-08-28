@@ -3,12 +3,16 @@
 <c:choose>
     <c:when test="${sessionScope.account == null}">
         <ul class="right-topbar">
+            <li><a href="${pageContext.request.contextPath}/home">Trang chủ</a></li>
+            <li><a href="${pageContext.request.contextPath}/product">Sản phẩm</a></li>
             <li><a href="${pageContext.request.contextPath}/login">Đăng nhập</a></li>
             <li><a href="${pageContext.request.contextPath}/register">Đăng ký</a></li>
         </ul>
     </c:when>
     <c:otherwise>
         <ul class="right-topbar">
+            <li><a href="${pageContext.request.contextPath}/home">Trang chủ</a></li>
+            <li><a href="${pageContext.request.contextPath}/product">Sản phẩm</a></li>
             <li><a href="${pageContext.request.contextPath}/waiting">${sessionScope.account.fullName}</a></li>
             <li><a href="${pageContext.request.contextPath}/logout">Đăng xuất</a></li>
         </ul>

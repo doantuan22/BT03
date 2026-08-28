@@ -13,7 +13,9 @@ public class CategoryServiceImpl implements CategoryService {
     private final ICategoryDao categoryDao = new CategoryDao();
     public void insert(Category category) {
         if (categoryDao.findByName(category.getName()) != null) throw new IllegalArgumentException("Category name already exists");
-        categoryDao.insert(toEntity(category));
+        vn.iotstar.entity.Category entity = toEntity(category);
+        categoryDao.insert(entity);
+        category.setId(entity.getId());
     }
     public void edit(Category category) {
         vn.iotstar.entity.Category oldCategory = categoryDao.findById(category.getId());

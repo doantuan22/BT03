@@ -60,6 +60,16 @@ public class User implements Serializable {
     @Column(name = "createdDate", nullable = false)
     private Date createdDate;
 
+    @Column(name = "otp_code", columnDefinition = "nvarchar(50) null")
+    private String otpCode;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "otp_expires_at", nullable = true)
+    private Date otpExpiresAt;
+
+    @Column(name = "is_activated", nullable = false, columnDefinition = "bit default 0")
+    private boolean isActivated;
+
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public String getEmail() { return email; }
@@ -78,4 +88,10 @@ public class User implements Serializable {
     public void setPhone(String phone) { this.phone = phone; }
     public Date getCreatedDate() { return createdDate; }
     public void setCreatedDate(Date createdDate) { this.createdDate = createdDate; }
+    public String getOtpCode() { return otpCode; }
+    public void setOtpCode(String otpCode) { this.otpCode = otpCode; }
+    public Date getOtpExpiresAt() { return otpExpiresAt; }
+    public void setOtpExpiresAt(Date otpExpiresAt) { this.otpExpiresAt = otpExpiresAt; }
+    public boolean isActivated() { return isActivated; }
+    public void setActivated(boolean isActivated) { this.isActivated = isActivated; }
 }

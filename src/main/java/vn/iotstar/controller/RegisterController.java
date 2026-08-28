@@ -71,9 +71,9 @@ public class RegisterController extends HttpServlet {
 
         boolean isSuccess = service.register(username, password, email, fullname, phone);
         if (isSuccess) {
-            resp.sendRedirect(req.getContextPath() + "/login");
+            resp.sendRedirect(req.getContextPath() + "/activate-account?email=" + java.net.URLEncoder.encode(email, java.nio.charset.StandardCharsets.UTF_8) + "&registered=true");
         } else {
-            alertMsg = "System error!";
+            alertMsg = "Lỗi hệ thống trong quá trình đăng ký!";
             req.setAttribute("alert", alertMsg);
             req.getRequestDispatcher(Constant.Path.REGISTER).forward(req, resp);
         }

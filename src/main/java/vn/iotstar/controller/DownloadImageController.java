@@ -14,9 +14,22 @@ import vn.iotstar.util.Constant;
 public class DownloadImageController extends HttpServlet {
     @Override protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String fileName = req.getParameter("fname");
-        if (fileName == null || !fileName.matches("category/[A-Za-z0-9._-]+")) { resp.sendError(HttpServletResponse.SC_BAD_REQUEST); return; }
-        File file = new File(Constant.DIR, fileName); if (!file.isFile()) { resp.sendError(HttpServletResponse.SC_NOT_FOUND); return; }
-        resp.setContentType(getServletContext().getMimeType(file.getName()));
-        try (FileInputStream input = new FileInputStream(file)) { IOUtils.copy(input, resp.getOutputStream()); }
+        if (fileName == null || !fileName.matches("(category|product|products|avatar)/[A-Za-z0-9._-]+")) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+        File file = new File(Constant.DIR, fileName);
+        if (!file.isFile()) {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+        String mimeType = getServletContext().getMimeType(file.getName());
+        if (mimeType == null) {
+            mimeType = "image/jpeg";
+        }
+        resp.setContentType(mimeType);
+        try (FileInputStream input = new FileInputStream(file)) {
+            IOUtils.copy(input, resp.getOutputStream());
+        }
     }
 }

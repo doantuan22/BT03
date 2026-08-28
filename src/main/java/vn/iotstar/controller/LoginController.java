@@ -36,7 +36,7 @@ public class LoginController extends HttpServlet {
                 if (Constant.COOKIE_REMEMBER.equals(cookie.getName())) {
                     UserService service = new UserServiceImpl();
                     User user = service.get(cookie.getValue());
-                    if (user != null) {
+                    if (user != null && user.isActivated()) {
                         session = req.getSession(true);
                         session.setAttribute("account", user);
                         resp.sendRedirect(req.getContextPath() + "/waiting");
@@ -65,7 +65,7 @@ public class LoginController extends HttpServlet {
         }
         String alertMsg = "";
 
-        if (username.isEmpty() || password.isEmpty()) {
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             alertMsg = "Tài khoản hoặc mật khẩu không được rỗng";
             req.setAttribute("alert", alertMsg);
             req.getRequestDispatcher(Constant.Path.LOGIN).forward(req, resp);
@@ -83,8 +83,15 @@ public class LoginController extends HttpServlet {
             }
             resp.sendRedirect(req.getContextPath() + "/waiting");
         } else {
-            alertMsg = "Tài khoản hoặc mật khẩu không đúng";
-            req.setAttribute("alert", alertMsg);
+            User existingUser = service.get(username);
+            if (existingUser != null && password.equals(existingUser.getPassWord()) && !existingUser.isActivated()) {
+                req.setAttribute("alert", "Tài khoản của bạn chưa được kích hoạt. Vui lòng xác thực mã OTP gửi qua email!");
+                req.setAttribute("unactivated", true);
+                req.setAttribute("unactivatedUsername", username);
+            } else {
+                alertMsg = "Tài khoản hoặc mật khẩu không đúng";
+                req.setAttribute("alert", alertMsg);
+            }
             req.getRequestDispatcher(Constant.Path.LOGIN).forward(req, resp);
         }
     }

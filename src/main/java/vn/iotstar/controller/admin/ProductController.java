@@ -21,17 +21,20 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import vn.iotstar.model.Category;
 import vn.iotstar.model.Product;
+import vn.iotstar.model.ImageUploadResult;
 import vn.iotstar.service.CategoryService;
 import vn.iotstar.service.IProductService;
+import vn.iotstar.service.ImageUploadService;
 import vn.iotstar.service.impl.CategoryServiceImpl;
 import vn.iotstar.service.impl.ProductServiceImpl;
+import vn.iotstar.service.impl.ImageUploadServiceImpl;
 import vn.iotstar.util.Constant;
 
 @SuppressWarnings("serial")
 @MultipartConfig(
-        fileSizeThreshold = 1024 * 1024,      // 1MB
-        maxFileSize = 1024 * 1024 * 10,        // 10MB
-        maxRequestSize = 1024 * 1024 * 25      // 25MB
+        fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 10,
+        maxRequestSize = 1024 * 1024 * 25
 )
 @WebServlet(urlPatterns = {
         "/admin/products",
@@ -46,6 +49,7 @@ public class ProductController extends HttpServlet {
 
     private final IProductService productService = new ProductServiceImpl();
     private final CategoryService categoryService = new CategoryServiceImpl();
+    private static final ImageUploadService imageUploadService = new ImageUploadServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -76,9 +80,6 @@ public class ProductController extends HttpServlet {
         }
     }
 
-    /**
-     * Action: index - List all products.
-     */
     public void index(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         List<Product> products = productService.findAll();
@@ -86,9 +87,6 @@ public class ProductController extends HttpServlet {
         req.getRequestDispatcher("/views/admin/list-product.jsp").forward(req, resp);
     }
 
-    /**
-     * Action: create - Render new product form with categories.
-     */
     public void create(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         List<Category> categories = categoryService.getAll();
@@ -96,9 +94,6 @@ public class ProductController extends HttpServlet {
         req.getRequestDispatcher("/views/admin/add-product.jsp").forward(req, resp);
     }
 
-    /**
-     * Action: store - Validate, upload image, and persist new product.
-     */
     public void store(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String name = req.getParameter("name");
@@ -111,7 +106,6 @@ public class ProductController extends HttpServlet {
         product.setName(name != null ? name.trim() : "");
         product.setDescription(description != null ? description.trim() : "");
 
-        // Validation: Name
         if (name == null || name.isBlank()) {
             req.setAttribute("error", "Tên sản phẩm không được để trống.");
             req.setAttribute("product", product);
@@ -119,7 +113,6 @@ public class ProductController extends HttpServlet {
             return;
         }
 
-        // Slug computation / validation
         if (slug == null || slug.isBlank()) {
             slug = slugify(name.trim());
         } else {
@@ -127,7 +120,6 @@ public class ProductController extends HttpServlet {
         }
         product.setSlug(slug);
 
-        // Validation: Category
         int categoryId = 0;
         try {
             categoryId = Integer.parseInt(categoryIdStr);
@@ -146,7 +138,6 @@ public class ProductController extends HttpServlet {
             return;
         }
 
-        // Validation: Price
         BigDecimal price;
         try {
             price = new BigDecimal(priceStr.trim());
@@ -164,11 +155,20 @@ public class ProductController extends HttpServlet {
             return;
         }
 
-        // Image upload
         try {
             Part filePart = req.getPart("image");
-            String imagePath = saveImage(filePart);
-            product.setImage(imagePath);
+            if (filePart != null && filePart.getSize() > 0) {
+                ImageUploadResult uploadResult = saveImage(filePart);
+                if (uploadResult != null) {
+                    product.setImageUrl(uploadResult.getSecureUrl());
+                    product.setImagePublicId(uploadResult.getPublicId());
+                } else {
+                    req.setAttribute("error", "Không thể tải ảnh lên Cloudinary. Vui lòng kiểm tra lại cấu hình hoặc kết nối mạng.");
+                    req.setAttribute("product", product);
+                    create(req, resp);
+                    return;
+                }
+            }
         } catch (IllegalArgumentException e) {
             req.setAttribute("error", e.getMessage());
             req.setAttribute("product", product);
@@ -184,9 +184,6 @@ public class ProductController extends HttpServlet {
         resp.sendRedirect(req.getContextPath() + "/admin/products");
     }
 
-    /**
-     * Action: show - Display product details.
-     */
     public void show(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Product product = loadProduct(req);
@@ -198,9 +195,6 @@ public class ProductController extends HttpServlet {
         req.getRequestDispatcher("/views/admin/show-product.jsp").forward(req, resp);
     }
 
-    /**
-     * Action: edit - Render edit form.
-     */
     public void edit(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Product product = loadProduct(req);
@@ -214,9 +208,6 @@ public class ProductController extends HttpServlet {
         req.getRequestDispatcher("/views/admin/edit-product.jsp").forward(req, resp);
     }
 
-    /**
-     * Action: update - Validate and update product.
-     */
     public void update(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Product existing = loadProduct(req);
@@ -292,8 +283,20 @@ public class ProductController extends HttpServlet {
         try {
             Part filePart = req.getPart("image");
             if (filePart != null && filePart.getSize() > 0) {
-                String imagePath = saveImage(filePart);
-                existing.setImage(imagePath);
+                ImageUploadResult uploadResult = saveImage(filePart);
+                if (uploadResult != null) {
+                    if (existing.getImagePublicId() != null && !existing.getImagePublicId().isBlank()) {
+                        imageUploadService.deleteImage(existing.getImagePublicId());
+                    }
+                    existing.setImageUrl(uploadResult.getSecureUrl());
+                    existing.setImagePublicId(uploadResult.getPublicId());
+                } else {
+                    req.setAttribute("error", "Không thể tải ảnh mới lên Cloudinary. Vui lòng kiểm tra lại cấu hình hoặc kết nối mạng.");
+                    req.setAttribute("product", existing);
+                    req.setAttribute("categories", categoryService.getAll());
+                    req.getRequestDispatcher("/views/admin/edit-product.jsp").forward(req, resp);
+                    return;
+                }
             }
         } catch (IllegalArgumentException e) {
             req.setAttribute("error", e.getMessage());
@@ -308,9 +311,6 @@ public class ProductController extends HttpServlet {
         resp.sendRedirect(req.getContextPath() + "/admin/products");
     }
 
-    /**
-     * Action: destroy - Delete product.
-     */
     public void destroy(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String idStr = req.getParameter("id");
@@ -367,7 +367,7 @@ public class ProductController extends HttpServlet {
         return null;
     }
 
-    public static String saveImage(Part item) throws IOException {
+    public static ImageUploadResult saveImage(Part item) throws IOException {
         if (item == null || item.getSize() == 0) {
             return null;
         }
@@ -378,12 +378,7 @@ public class ProductController extends HttpServlet {
             throw new IllegalArgumentException("Định dạng ảnh không hợp lệ. Chỉ chấp nhận jpg, jpeg, png, gif, webp.");
         }
 
-        File directory = new File(Constant.DIR, "product");
-        Files.createDirectories(directory.toPath());
-        String fileName = System.currentTimeMillis() + "_" + (int)(Math.random() * 1000) + "." + extension;
-        File destFile = new File(directory, fileName);
-        item.write(destFile.getAbsolutePath());
-        return "product/" + fileName;
+        return imageUploadService.uploadImage(item.getInputStream(), submitted);
     }
 
     public static String slugify(String input) {

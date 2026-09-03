@@ -2,6 +2,7 @@ package vn.iotstar.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Category implements Serializable {
@@ -9,31 +10,45 @@ public class Category implements Serializable {
 
     private int id;
     private String name;
-    private String icon;
+    private String imageUrl;
+    private String imagePublicId;
+    private Date createdAt;
+    private Date updatedAt;
     private List<Product> products = new ArrayList<>();
 
     public Category() {}
 
-    public Category(int id, String name, String icon) {
+    public Category(int id, String name, String imageUrl, String imagePublicId) {
         this.id = id;
         this.name = name;
-        this.icon = icon;
+        this.imageUrl = imageUrl;
+        this.imagePublicId = imagePublicId;
+    }
+
+    public Category(int id, String name, String imageUrl, String imagePublicId, Date createdAt, Date updatedAt) {
+        this.id = id;
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.imagePublicId = imagePublicId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
-    public String getIcon() { return icon; }
-    public void setIcon(String icon) { this.icon = icon; }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public String getImagePublicId() { return imagePublicId; }
+    public void setImagePublicId(String imagePublicId) { this.imagePublicId = imagePublicId; }
+    public Date getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
+    public Date getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Date updatedAt) { this.updatedAt = updatedAt; }
     public List<Product> getProducts() { return products; }
     public void setProducts(List<Product> products) { this.products = products; }
 
-    /**
-     * Relationship accessor: Category hasMany Products.
-     *
-     * @return List of products in this category
-     */
     public List<Product> products() {
         return this.products;
     }

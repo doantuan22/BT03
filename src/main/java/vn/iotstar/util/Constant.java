@@ -4,14 +4,13 @@ public class Constant {
     public static final String DIR = "E:\\upload";
 
     public static final String SESSION_USERNAME = "username";
-    public static final String COOKIE_REMEMBER = "username";
+    public static final String COOKIE_REMEMBER = "remember_token";
+    public static final int COOKIE_REMEMBER_EXPIRE = 7 * 24 * 60 * 60;
     public static final int ROLE_ADMIN = 1;
     public static final int ROLE_MANAGER = 2;
 
-    // OTP Configuration
     public static final int OTP_EXPIRY_MINUTES = 5;
 
-    // Email SMTP Configuration
     public static final String SMTP_HOST = System.getProperty("smtp.host", System.getenv().getOrDefault("SMTP_HOST", "smtp.gmail.com"));
     public static final String SMTP_PORT = System.getProperty("smtp.port", System.getenv().getOrDefault("SMTP_PORT", "587"));
     public static final String SMTP_USERNAME = "doantuan0947881956@gmail.com";

@@ -12,7 +12,8 @@ public class Product implements Serializable {
     private String slug;
     private String description;
     private BigDecimal price;
-    private String image;
+    private String imageUrl;
+    private String imagePublicId;
     private int categoryId;
     private String categoryName;
     private Category category;
@@ -21,25 +22,27 @@ public class Product implements Serializable {
 
     public Product() {}
 
-    public Product(int id, String name, String slug, String description, BigDecimal price, String image, int categoryId, Date createdAt, Date updatedAt) {
+    public Product(int id, String name, String slug, String description, BigDecimal price, String imageUrl, String imagePublicId, int categoryId, Date createdAt, Date updatedAt) {
         this.id = id;
         this.name = name;
         this.slug = slug;
         this.description = description;
         this.price = price;
-        this.image = image;
+        this.imageUrl = imageUrl;
+        this.imagePublicId = imagePublicId;
         this.categoryId = categoryId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public Product(int id, String name, String slug, String description, BigDecimal price, String image, Category category, Date createdAt, Date updatedAt) {
+    public Product(int id, String name, String slug, String description, BigDecimal price, String imageUrl, String imagePublicId, Category category, Date createdAt, Date updatedAt) {
         this.id = id;
         this.name = name;
         this.slug = slug;
         this.description = description;
         this.price = price;
-        this.image = image;
+        this.imageUrl = imageUrl;
+        this.imagePublicId = imagePublicId;
         this.category = category;
         if (category != null) {
             this.categoryId = category.getId();
@@ -59,8 +62,10 @@ public class Product implements Serializable {
     public void setDescription(String description) { this.description = description; }
     public BigDecimal getPrice() { return price; }
     public void setPrice(BigDecimal price) { this.price = price; }
-    public String getImage() { return image; }
-    public void setImage(String image) { this.image = image; }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public String getImagePublicId() { return imagePublicId; }
+    public void setImagePublicId(String imagePublicId) { this.imagePublicId = imagePublicId; }
     public int getCategoryId() { return categoryId; }
     public void setCategoryId(int categoryId) { this.categoryId = categoryId; }
     public String getCategoryName() { return categoryName; }
@@ -74,11 +79,6 @@ public class Product implements Serializable {
         }
     }
 
-    /**
-     * Relationship accessor: Product belongsTo Category.
-     *
-     * @return Category this product belongs to
-     */
     public Category category() {
         return this.category;
     }

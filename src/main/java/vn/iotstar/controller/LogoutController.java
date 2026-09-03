@@ -4,13 +4,12 @@ import java.io.IOException;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import vn.iotstar.util.Constant;
+import vn.iotstar.util.CookieUtils;
 
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = "/logout")
@@ -25,9 +24,7 @@ public class LogoutController extends HttpServlet {
             session.invalidate();
         }
 
-        Cookie cookie = new Cookie(Constant.COOKIE_REMEMBER, "");
-        cookie.setMaxAge(0);
-        resp.addCookie(cookie);
+        CookieUtils.deleteRememberMe(req, resp);
 
         resp.sendRedirect(req.getContextPath() + "/login");
     }

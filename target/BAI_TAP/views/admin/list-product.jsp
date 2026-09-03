@@ -42,11 +42,8 @@
                 <td>${status.count}</td>
                 <td>
                     <c:choose>
-                        <c:when test="${not empty prod.image}">
-                            <c:url value="/image" var="imageUrl">
-                                <c:param name="fname" value="${prod.image}"/>
-                            </c:url>
-                            <img class="product-image" src="${imageUrl}" alt="${prod.name}">
+                        <c:when test="${not empty prod.imageUrl}">
+                            <img class="product-image" src="${prod.imageUrl}" alt="${prod.name}">
                         </c:when>
                         <c:otherwise>
                             <span class="no-image">Chưa có ảnh</span>

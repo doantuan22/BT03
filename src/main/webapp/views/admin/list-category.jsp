@@ -14,7 +14,7 @@
         <c:forEach items="${cateList}" var="cate" varStatus="status">
             <tr>
                 <td>${status.count}</td>
-                <td><c:choose><c:when test="${not empty cate.icon}"><c:url value="/image" var="imageUrl"><c:param name="fname" value="${cate.icon}"/></c:url><img class="category-image" src="${imageUrl}" alt="${cate.name}"></c:when><c:otherwise><span class="no-image">Ch&#432;a c&#243; &#7843;nh</span></c:otherwise></c:choose></td>
+                <td><c:choose><c:when test="${not empty cate.imageUrl}"><img class="category-image" src="${cate.imageUrl}" alt="${cate.name}"></c:when><c:otherwise><span class="no-image">Ch&#432;a c&#243; &#7843;nh</span></c:otherwise></c:choose></td>
                 <td><c:out value="${cate.name}"/></td>
                 <td class="category-actions">
                     <c:url value="/admin/category/edit" var="editUrl"><c:param name="id" value="${cate.id}"/></c:url>

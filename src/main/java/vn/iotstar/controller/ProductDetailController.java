@@ -26,19 +26,16 @@ public class ProductDetailController extends HttpServlet {
             throws ServletException, IOException {
         String pathInfo = req.getPathInfo();
 
-        // 1. If no subpath or list subpath -> delegate to product listing
         if (pathInfo == null || pathInfo.equals("/") || pathInfo.equalsIgnoreCase("/list")) {
             listController.doGet(req, resp);
             return;
         }
 
-        // 2. Query parameter based lookup (/product/detail?id=... or /product/detail?slug=...)
         if (pathInfo.equalsIgnoreCase("/detail")) {
             handleDetailByParam(req, resp);
             return;
         }
 
-        // 3. Path variable slug lookup (/product/{slug})
         String slugOrId = pathInfo.substring(1).trim();
         if (slugOrId.isEmpty()) {
             listController.doGet(req, resp);
@@ -47,7 +44,6 @@ public class ProductDetailController extends HttpServlet {
 
         Product product = productService.findBySlug(slugOrId);
 
-        // Fallback: Check if slugOrId is a numeric ID
         if (product == null) {
             try {
                 int id = Integer.parseInt(slugOrId);

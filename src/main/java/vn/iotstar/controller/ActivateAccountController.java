@@ -72,7 +72,6 @@ public class ActivateAccountController extends HttpServlet {
             req.setAttribute("username", email.trim());
         }
 
-        // Handle Resend OTP action
         if ("resend".equalsIgnoreCase(action)) {
             if (email == null || email.isBlank()) {
                 req.setAttribute("alert", "Vui lòng nhập email hoặc tên tài khoản để gửi lại mã OTP.");
@@ -100,7 +99,6 @@ public class ActivateAccountController extends HttpServlet {
         email = email.trim();
         otp = otp.trim();
 
-        // Perform activation & validation
         User user = userService.findByEmail(email);
         if (user == null) {
             user = userService.get(email);

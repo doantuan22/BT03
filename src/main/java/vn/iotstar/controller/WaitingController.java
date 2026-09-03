@@ -22,11 +22,11 @@ public class WaitingController extends HttpServlet {
         HttpSession session = req.getSession();
         if (session != null && session.getAttribute("account") != null) {
             User u = (User) session.getAttribute("account");
-            req.setAttribute("username", u.getUserName());
+            req.setAttribute("username", u.getUsername());
 
-            if (u.getRoleid() == 1) {
+            if (u.getRoleId() == 1) {
                 resp.sendRedirect(req.getContextPath() + "/admin/category/list");
-            } else if (u.getRoleid() == 2) {
+            } else if (u.getRoleId() == 2) {
                 resp.sendRedirect(req.getContextPath() + "/manager/home");
             } else {
                 resp.sendRedirect(req.getContextPath() + "/home");

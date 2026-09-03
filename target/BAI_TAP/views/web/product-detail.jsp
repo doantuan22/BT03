@@ -23,11 +23,8 @@
         <!-- Left: Image Box -->
         <div style="flex: 1; min-width: 300px; max-width: 440px; display: flex; flex-direction: column; align-items: center;">
             <c:choose>
-                <c:when test="${not empty product.image}">
-                    <c:url value="/image" var="imgUrl">
-                        <c:param name="fname" value="${product.image}"/>
-                    </c:url>
-                    <img src="${imgUrl}" alt="${product.name}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 10px; border: 1px solid #e5e7eb; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                <c:when test="${not empty product.imageUrl}">
+                    <img src="${product.imageUrl}" alt="${product.name}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 10px; border: 1px solid #e5e7eb; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
                 </c:when>
                 <c:otherwise>
                     <div style="width: 100%; height: 340px; background: #f3f4f6; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #9ca3af; border: 1px solid #e5e7eb;">

@@ -29,7 +29,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Entity
 @Table(name = "products")
-@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
+@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p ORDER BY p.id DESC")
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -43,7 +43,7 @@ public class Product implements Serializable {
     private String name;
 
     @NotEmpty(message = "Product slug must not be empty")
-    @Column(name = "slug", columnDefinition = "nvarchar(255) not null")
+    @Column(name = "slug", columnDefinition = "nvarchar(255) not null", nullable = false, unique = true)
     private String slug;
 
     @Column(name = "description", columnDefinition = "nvarchar(max) null")
@@ -52,13 +52,16 @@ public class Product implements Serializable {
     @Column(name = "price", precision = 18, scale = 2, nullable = false)
     private BigDecimal price = BigDecimal.ZERO;
 
-    @Column(name = "image", columnDefinition = "nvarchar(500) null")
-    private String image;
+    @Column(name = "image_url", columnDefinition = "nvarchar(500) null")
+    private String imageUrl;
+
+    @Column(name = "image_public_id", columnDefinition = "nvarchar(255) null")
+    private String imagePublicId;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", referencedColumnName = "cate_id", nullable = false)
+    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
     private Category category;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -94,16 +97,13 @@ public class Product implements Serializable {
     public void setDescription(String description) { this.description = description; }
     public BigDecimal getPrice() { return price; }
     public void setPrice(BigDecimal price) { this.price = price; }
-    public String getImage() { return image; }
-    public void setImage(String image) { this.image = image; }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public String getImagePublicId() { return imagePublicId; }
+    public void setImagePublicId(String imagePublicId) { this.imagePublicId = imagePublicId; }
     public Category getCategory() { return category; }
     public void setCategory(Category category) { this.category = category; }
 
-    /**
-     * Relationship accessor: Product belongsTo Category.
-     *
-     * @return Category this product belongs to
-     */
     public Category category() {
         return this.category;
     }

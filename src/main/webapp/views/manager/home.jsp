@@ -4,7 +4,7 @@
 <jsp:include page="/common/web/header.jsp"/>
 <div class="dashboard-card">
     <h2>Xin chào, ${sessionScope.account.fullName}!</h2>
-    <p>Bạn đã đăng nhập thành công (roleid = ${sessionScope.account.roleid})</p>
+    <p>Bạn đã đăng nhập thành công (roleId = ${sessionScope.account.roleId})</p>
     <a class="btn btn-outline" href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
 </div>
 <jsp:include page="/common/web/footer.jsp"/>

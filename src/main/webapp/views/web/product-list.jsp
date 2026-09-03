@@ -83,11 +83,8 @@
                 <div class="product-card-media">
                     <a href="${detailUrl}" style="display: block; width: 100%; height: 100%;">
                         <c:choose>
-                            <c:when test="${not empty prod.image}">
-                                <c:url value="/image" var="imgUrl">
-                                    <c:param name="fname" value="${prod.image}"/>
-                                </c:url>
-                                <img src="${imgUrl}" alt="${prod.name}" loading="lazy">
+                            <c:when test="${not empty prod.imageUrl}">
+                                <img src="${prod.imageUrl}" alt="${prod.name}">
                             </c:when>
                             <c:otherwise>
                                 <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 0.85rem; background: #f3f4f6;">

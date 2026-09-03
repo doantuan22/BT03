@@ -85,7 +85,6 @@ public class ResetPasswordController extends HttpServlet {
             req.setAttribute("email", email.trim());
         }
 
-        // Handle Resend OTP action
         if ("resend".equalsIgnoreCase(action)) {
             if (email == null || email.isBlank()) {
                 req.setAttribute("alert", "Vui lòng nhập email để nhận lại mã OTP.");
@@ -103,7 +102,6 @@ public class ResetPasswordController extends HttpServlet {
             return;
         }
 
-        // Validate required fields
         if (email == null || email.isBlank() || otp == null || otp.isBlank()
                 || password == null || password.isBlank()) {
             req.setAttribute("alert", "Vui lòng điền đầy đủ tất cả các thông tin.");

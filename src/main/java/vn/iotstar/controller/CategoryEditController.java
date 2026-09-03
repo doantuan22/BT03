@@ -7,7 +7,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import vn.iotstar.model.Category;
+import vn.iotstar.model.ImageUploadResult;
 import vn.iotstar.service.CategoryService;
 import vn.iotstar.service.impl.CategoryServiceImpl;
 
@@ -23,7 +25,22 @@ public class CategoryEditController extends HttpServlet {
         Category current = loadCategory(req); String name = req.getParameter("name");
         if (current == null) { resp.sendError(HttpServletResponse.SC_NOT_FOUND); return; }
         if (name == null || name.isBlank()) { req.setAttribute("category", current); req.setAttribute("error", "Category name is required."); req.getRequestDispatcher("/views/admin/edit-category.jsp").forward(req, resp); return; }
-        try { Category category = new Category(); category.setId(current.getId()); category.setName(name.trim()); category.setIcon(CategoryAddController.saveImage(req.getPart("icon"))); categoryService.edit(category); resp.sendRedirect(req.getContextPath() + "/admin/category/list"); }
+        try { 
+            Category category = new Category(); 
+            category.setId(current.getId()); 
+            category.setName(name.trim()); 
+            Part filePart = req.getPart("image");
+            if (filePart == null || filePart.getSize() == 0) {
+                filePart = req.getPart("icon");
+            }
+            ImageUploadResult uploadResult = CategoryAddController.saveImage(filePart);
+            if (uploadResult != null) {
+                category.setImageUrl(uploadResult.getSecureUrl());
+                category.setImagePublicId(uploadResult.getPublicId());
+            }
+            categoryService.edit(category); 
+            resp.sendRedirect(req.getContextPath() + "/admin/category/list"); 
+        }
         catch (IllegalArgumentException e) { req.setAttribute("category", current); req.setAttribute("error", e.getMessage()); req.getRequestDispatcher("/views/admin/edit-category.jsp").forward(req, resp); }
     }
     private Category loadCategory(HttpServletRequest req) { try { return categoryService.get(Integer.parseInt(req.getParameter("id"))); } catch (NumberFormatException e) { return null; } }

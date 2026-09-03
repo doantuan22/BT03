@@ -28,7 +28,7 @@ public class AuthorizationFilter implements Filter {
                 resp.sendRedirect(req.getContextPath() + "/login");
                 return;
             }
-            if (account.getRoleid() != Constant.ROLE_ADMIN) {
+            if (account.getRoleId() != Constant.ROLE_ADMIN) {
                 resp.sendError(HttpServletResponse.SC_FORBIDDEN);
                 return;
             }
@@ -39,7 +39,7 @@ public class AuthorizationFilter implements Filter {
                 resp.sendRedirect(req.getContextPath() + "/login");
                 return;
             }
-            if (account.getRoleid() != Constant.ROLE_MANAGER) {
+            if (account.getRoleId() != Constant.ROLE_MANAGER) {
                 resp.sendError(HttpServletResponse.SC_FORBIDDEN);
                 return;
             }

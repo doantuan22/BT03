@@ -103,7 +103,8 @@ public class ProductServiceImpl implements IProductService {
         entity.setSlug(model.getSlug());
         entity.setDescription(model.getDescription());
         entity.setPrice(model.getPrice());
-        entity.setImage(model.getImage());
+        entity.setImageUrl(model.getImageUrl());
+        entity.setImagePublicId(model.getImagePublicId());
         entity.setCreatedAt(model.getCreatedAt());
         entity.setUpdatedAt(model.getUpdatedAt());
 
@@ -126,7 +127,8 @@ public class ProductServiceImpl implements IProductService {
         model.setSlug(entity.getSlug());
         model.setDescription(entity.getDescription());
         model.setPrice(entity.getPrice());
-        model.setImage(entity.getImage());
+        model.setImageUrl(entity.getImageUrl());
+        model.setImagePublicId(entity.getImagePublicId());
         model.setCreatedAt(entity.getCreatedAt());
         model.setUpdatedAt(entity.getUpdatedAt());
 
@@ -136,7 +138,8 @@ public class ProductServiceImpl implements IProductService {
             vn.iotstar.model.Category catModel = new vn.iotstar.model.Category(
                     entity.getCategory().getId(),
                     entity.getCategory().getName(),
-                    entity.getCategory().getIcon()
+                    entity.getCategory().getImageUrl(),
+                    entity.getCategory().getImagePublicId()
             );
             model.setCategory(catModel);
         }

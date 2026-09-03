@@ -19,8 +19,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(String username, String password) {
         User user = this.get(username);
-        if (user != null && password.equals(user.getPassWord())) {
-            // User cannot log in until activated
+        if (user != null && password.equals(user.getPassword())) {
             if (!user.isActivated()) {
                 return null;
             }
@@ -53,22 +52,21 @@ public class UserServiceImpl implements UserService {
 
         User user = new User();
         user.setEmail(email);
-        user.setUserName(username);
+        user.setUsername(username);
         user.setFullName(fullname);
-        user.setPassWord(password);
-        user.setAvatar(null);
-        user.setRoleid(5);
+        user.setPassword(password);
+        user.setImageUrl(null);
+        user.setImagePublicId(null);
+        user.setRoleId(5);
         user.setPhone(phone);
-        user.setCreatedDate(new Date());
+        user.setCreatedAt(new Date());
+        user.setUpdatedAt(new Date());
         user.setOtpCode(otpCode);
         user.setOtpExpiresAt(otpExpiresAt);
         user.setActivated(false);
 
         userDao.insert(toEntity(user));
-
-        // Dispatch activation email with 6-digit OTP
         emailService.sendActivationEmail(email, fullname, otpCode);
-
         return true;
     }
 
@@ -172,7 +170,7 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
-        entity.setPassWord(newPassword);
+        entity.setPassword(newPassword);
         entity.setOtpCode(null);
         entity.setOtpExpiresAt(null);
         entity.setActivated(true);
@@ -236,19 +234,39 @@ public class UserServiceImpl implements UserService {
     private User toModel(vn.iotstar.entity.User entity) {
         if (entity == null) return null;
         User model = new User();
-        model.setId(entity.getId()); model.setEmail(entity.getEmail()); model.setUserName(entity.getUserName());
-        model.setFullName(entity.getFullName()); model.setPassWord(entity.getPassWord()); model.setAvatar(entity.getAvatar());
-        model.setRoleid(entity.getRoleid()); model.setPhone(entity.getPhone()); model.setCreatedDate(entity.getCreatedDate());
-        model.setOtpCode(entity.getOtpCode()); model.setOtpExpiresAt(entity.getOtpExpiresAt()); model.setActivated(entity.isActivated());
+        model.setId(entity.getId());
+        model.setEmail(entity.getEmail());
+        model.setUsername(entity.getUsername());
+        model.setFullName(entity.getFullName());
+        model.setPassword(entity.getPassword());
+        model.setImageUrl(entity.getImageUrl());
+        model.setImagePublicId(entity.getImagePublicId());
+        model.setRoleId(entity.getRoleId());
+        model.setPhone(entity.getPhone());
+        model.setCreatedAt(entity.getCreatedAt());
+        model.setUpdatedAt(entity.getUpdatedAt());
+        model.setOtpCode(entity.getOtpCode());
+        model.setOtpExpiresAt(entity.getOtpExpiresAt());
+        model.setActivated(entity.isActivated());
         return model;
     }
 
     private vn.iotstar.entity.User toEntity(User model) {
         vn.iotstar.entity.User entity = new vn.iotstar.entity.User();
-        entity.setId(model.getId()); entity.setEmail(model.getEmail()); entity.setUserName(model.getUserName());
-        entity.setFullName(model.getFullName()); entity.setPassWord(model.getPassWord()); entity.setAvatar(model.getAvatar());
-        entity.setRoleid(model.getRoleid()); entity.setPhone(model.getPhone()); entity.setCreatedDate(model.getCreatedDate());
-        entity.setOtpCode(model.getOtpCode()); entity.setOtpExpiresAt(model.getOtpExpiresAt()); entity.setActivated(model.isActivated());
+        entity.setId(model.getId());
+        entity.setEmail(model.getEmail());
+        entity.setUsername(model.getUsername());
+        entity.setFullName(model.getFullName());
+        entity.setPassword(model.getPassword());
+        entity.setImageUrl(model.getImageUrl());
+        entity.setImagePublicId(model.getImagePublicId());
+        entity.setRoleId(model.getRoleId());
+        entity.setPhone(model.getPhone());
+        entity.setCreatedAt(model.getCreatedAt());
+        entity.setUpdatedAt(model.getUpdatedAt());
+        entity.setOtpCode(model.getOtpCode());
+        entity.setOtpExpiresAt(model.getOtpExpiresAt());
+        entity.setActivated(model.isActivated());
         return entity;
     }
 }

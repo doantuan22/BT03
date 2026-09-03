@@ -8,7 +8,7 @@
     <c:if test="${not empty error}"><div class="alert alert-danger">${error}</div></c:if>
     <form action="<c:url value='/admin/category/add'/>" method="post" enctype="multipart/form-data">
         <div class="form-group"><label for="name">T&#234;n danh m&#7909;c</label><input id="name" class="form-control" name="name" required></div>
-        <div class="form-group"><label for="icon">&#7842;nh &#273;&#7841;i di&#7879;n</label><input id="icon" type="file" name="icon" accept="image/png,image/jpeg,image/gif,image/webp"></div>
+        <div class="form-group"><label for="image">&#7842;nh &#273;&#7841;i di&#7879;n</label><input id="image" type="file" name="image" accept="image/png,image/jpeg,image/gif,image/webp"></div>
         <div class="form-actions"><button class="btn btn-primary" type="submit">Th&#234;m</button><a class="btn btn-outline" href="<c:url value='/admin/category/list'/>">H&#7911;y</a></div>
     </form>
 </section>

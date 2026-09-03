@@ -52,7 +52,7 @@ public class UserDao implements IUserDao {
 
     @Override
     public User findByUsername(String username) {
-        return findOne("SELECT u FROM User u WHERE u.userName = :value", username);
+        return findOne("SELECT u FROM User u WHERE u.username = :value", username);
     }
 
     @Override
@@ -91,9 +91,9 @@ public class UserDao implements IUserDao {
         EntityManager entityManager = JPAConfig.getEntityManager();
         try {
             return entityManager.createQuery(
-                    "SELECT u FROM User u WHERE LOWER(u.userName) LIKE LOWER(:keyword) "
+                    "SELECT u FROM User u WHERE LOWER(u.username) LIKE LOWER(:keyword) "
                             + "OR LOWER(u.fullName) LIKE LOWER(:keyword) "
-                            + "OR LOWER(u.email) LIKE LOWER(:keyword) ORDER BY u.id",
+                            + "OR LOWER(u.email) LIKE LOWER(:keyword) ORDER BY u.id DESC",
                     User.class)
                     .setParameter("keyword", "%" + keyword + "%")
                     .getResultList();

@@ -39,7 +39,7 @@
                 Top 10 sản phẩm vừa được cập nhật trên hệ thống.
             </p>
         </div>
-        <c:if test="${sessionScope.account.roleid == 1}">
+        <c:if test="${sessionScope.account.roleId == 1}">
             <a class="btn btn-outline btn-sm" href="<c:url value='/admin/products'/>">Quản trị sản phẩm &rarr;</a>
         </c:if>
     </div>
@@ -61,11 +61,8 @@
                 <div class="product-card-media">
                     <a href="${detailUrl}" style="display: block; width: 100%; height: 100%;">
                         <c:choose>
-                            <c:when test="${not empty prod.image}">
-                                <c:url value="/image" var="imgUrl">
-                                    <c:param name="fname" value="${prod.image}"/>
-                                </c:url>
-                                <img src="${imgUrl}" alt="${prod.name}" loading="lazy">
+                            <c:when test="${not empty prod.imageUrl}">
+                                <img src="${prod.imageUrl}" alt="${prod.name}">
                             </c:when>
                             <c:otherwise>
                                 <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 0.85rem; background: #f3f4f6;">
@@ -102,7 +99,7 @@
     <c:if test="${empty top10Products && empty productList}">
         <div class="card" style="text-align: center; padding: 48px 20px; color: #64748b; margin-top: 20px;">
             <p style="font-size: 1.1rem; margin-bottom: 12px;">Hiện chưa có sản phẩm nào được bày bán.</p>
-            <c:if test="${sessionScope.account.roleid == 1}">
+            <c:if test="${sessionScope.account.roleId == 1}">
                 <a class="btn btn-primary" href="<c:url value='/admin/products/create'/>">+ Thêm sản phẩm đầu tiên</a>
             </c:if>
         </div>

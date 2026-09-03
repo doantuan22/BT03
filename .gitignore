@@ -1,0 +1,7 @@
+target/
+.idea/
+*.iml
+.vscode/
+
+# Cloudinary secret properties
+cloudinary.properties

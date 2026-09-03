@@ -47,7 +47,6 @@ public class ProductListController extends HttpServlet {
             keyword = keyword.trim();
         }
 
-        // Parse page
         int page = 1;
         if (pageStr != null && !pageStr.isBlank()) {
             try {
@@ -58,7 +57,6 @@ public class ProductListController extends HttpServlet {
             }
         }
 
-        // Parse categoryId
         Integer categoryId = null;
         if (categoryIdStr != null && !categoryIdStr.isBlank()) {
             try {
@@ -70,7 +68,6 @@ public class ProductListController extends HttpServlet {
             }
         }
 
-        // Compute total products & total pages
         int totalProducts = productService.countFiltered(categoryId, keyword);
         int totalPages = (int) Math.ceil((double) totalProducts / PAGE_SIZE);
         if (totalPages < 1) {
@@ -80,11 +77,9 @@ public class ProductListController extends HttpServlet {
             page = totalPages;
         }
 
-        // Fetch paginated products
         List<Product> productList = productService.findPaginated(page, PAGE_SIZE, categoryId, keyword, sort);
         List<Category> categories = categoryService.getAll();
 
-        // Pass attributes to JSP
         req.setAttribute("productList", productList);
         req.setAttribute("categories", categories);
         req.setAttribute("currentPage", page);

@@ -22,11 +22,8 @@
     <div style="display: flex; gap: 32px; flex-wrap: wrap; margin-top: 20px;">
         <div>
             <c:choose>
-                <c:when test="${not empty product.image}">
-                    <c:url value="/image" var="imageUrl">
-                        <c:param name="fname" value="${product.image}"/>
-                    </c:url>
-                    <img class="product-detail-image" src="${imageUrl}" alt="${product.name}">
+                <c:when test="${not empty product.imageUrl}">
+                    <img src="${product.imageUrl}" class="img-fluid" alt="Product Image">
                 </c:when>
                 <c:otherwise>
                     <div style="width: 240px; height: 240px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; border-radius: 8px; border: 1px solid #d1d5db; color: #9ca3af;">

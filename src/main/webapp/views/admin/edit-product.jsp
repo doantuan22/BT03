@@ -53,13 +53,8 @@
         <div class="form-group">
             <label>Hình ảnh hiện tại</label>
             <c:choose>
-                <c:when test="${not empty product.image}">
-                    <c:url value="/image" var="imageUrl">
-                        <c:param name="fname" value="${product.image}"/>
-                    </c:url>
-                    <div>
-                        <img class="product-image current-image" src="${imageUrl}" alt="${product.name}">
-                    </div>
+                <c:when test="${not empty product.imageUrl}">
+                    <img src="${product.imageUrl}" class="img-thumbnail" alt="Current Image" style="max-height: 200px;">
                 </c:when>
                 <c:otherwise>
                     <p class="no-image">Chưa có hình ảnh</p>

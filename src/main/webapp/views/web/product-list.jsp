@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="<c:url value='/assets/css/product.css'/>">
 
 <div class="container" style="width: 100%; max-width: 1100px; margin: 0 auto;">
-    <!-- Header Section -->
     <div style="margin-bottom: 24px;">
         <h1 style="font-size: 1.85rem; margin: 0 0 6px 0; color: #0f172a; font-weight: 700;">
             Tất Cả Sản Phẩm
@@ -16,7 +15,6 @@
         </p>
     </div>
 
-    <!-- Filter & Sort Bar -->
     <div class="filter-bar">
         <form action="<c:url value='/product'/>" method="get" class="filter-form">
             <div class="filter-group">
@@ -56,7 +54,6 @@
         </form>
     </div>
 
-    <!-- Results Status -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; color: #64748b; font-size: 0.9rem;">
         <div>
             Hiển thị <strong>${productList.size()}</strong> / <strong>${totalProducts}</strong> sản phẩm
@@ -66,7 +63,6 @@
         </div>
     </div>
 
-    <!-- Product Grid (6 per page) -->
     <div class="product-grid">
         <c:forEach items="${productList}" var="prod">
             <c:choose>
@@ -125,10 +121,8 @@
         </div>
     </c:if>
 
-    <!-- Pagination Links -->
     <c:if test="${totalPages > 1}">
         <div class="pagination-wrapper">
-            <!-- Prev Link -->
             <c:url value="/product" var="prevUrl">
                 <c:param name="page" value="${currentPage - 1}"/>
                 <c:if test="${not empty selectedCategoryId}">
@@ -143,7 +137,6 @@
             </c:url>
             <a class="pagination-item ${currentPage <= 1 ? 'disabled' : ''}" href="${prevUrl}">&laquo; Trước</a>
 
-            <!-- Page Number Links -->
             <c:forEach begin="1" end="${totalPages}" var="p">
                 <c:url value="/product" var="pageUrl">
                     <c:param name="page" value="${p}"/>
@@ -160,7 +153,6 @@
                 <a class="pagination-item ${currentPage == p ? 'active' : ''}" href="${pageUrl}">${p}</a>
             </c:forEach>
 
-            <!-- Next Link -->
             <c:url value="/product" var="nextUrl">
                 <c:param name="page" value="${currentPage + 1}"/>
                 <c:if test="${not empty selectedCategoryId}">

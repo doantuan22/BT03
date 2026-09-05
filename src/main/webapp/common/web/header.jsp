@@ -37,7 +37,6 @@
             padding: 0 16px;
         }
 
-        /* Header / topbar */
         .site-header {
             background: #1f2937;
             color: #fff;
@@ -85,7 +84,6 @@
             color: #fff;
         }
 
-        /* Main content area */
         .main-content {
             flex: 1;
             padding: 40px 16px;
@@ -93,7 +91,6 @@
             justify-content: center;
         }
 
-        /* Cards (login / register / dashboard) */
         .auth-wrapper {
             width: 100%;
             display: flex;
@@ -127,7 +124,6 @@
             color: #111827;
         }
 
-        /* Forms */
         .form-group {
             margin-bottom: 16px;
         }
@@ -165,7 +161,6 @@
             gap: 6px;
         }
 
-        /* Buttons */
         .btn {
             display: inline-block;
             padding: 10px 18px;
@@ -205,7 +200,6 @@
             background: #f3f4f6;
         }
 
-        /* Alerts */
         .alert {
             padding: 10px 14px;
             border-radius: 6px;
@@ -231,7 +225,6 @@
             border: 1px solid #bfdbfe;
         }
 
-        /* Misc text */
         .auth-alt {
             margin-top: 20px;
             margin-bottom: 0;
@@ -244,7 +237,6 @@
             color: #374151;
         }
 
-        /* Footer */
         .site-footer {
             background: #1f2937;
             color: #9ca3af;
@@ -253,7 +245,6 @@
             font-size: 0.85rem;
         }
 
-        /* Landing page */
         .landing-card {
             text-align: center;
         }

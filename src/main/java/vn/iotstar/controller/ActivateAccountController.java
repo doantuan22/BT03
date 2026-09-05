@@ -89,7 +89,6 @@ public class ActivateAccountController extends HttpServlet {
             return;
         }
 
-        // Validate required inputs
         if (email == null || email.isBlank() || otp == null || otp.isBlank()) {
             req.setAttribute("alert", "Vui lòng nhập đầy đủ Email và mã OTP 6 chữ số.");
             req.getRequestDispatcher(Constant.Path.ACTIVATE_ACCOUNT).forward(req, resp);
@@ -127,7 +126,6 @@ public class ActivateAccountController extends HttpServlet {
             return;
         }
 
-        // Valid OTP -> Activate account and clear OTP fields
         boolean activated = userService.activateAccount(email, otp);
         if (activated) {
             resp.sendRedirect(req.getContextPath() + "/login?activated=true");

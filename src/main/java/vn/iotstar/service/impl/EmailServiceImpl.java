@@ -117,7 +117,6 @@ public class EmailServiceImpl implements EmailService {
             return false;
         }
 
-        // Print to log for immediate visibility and testing
         LOGGER.info(String.format("Sending Email to [%s] | Subject: [%s]", toEmail, subject));
 
         String host = Constant.SMTP_HOST;
@@ -157,7 +156,6 @@ public class EmailServiceImpl implements EmailService {
             message.setSubject(subject, "UTF-8");
             message.setContent(contentHtml, "text/html; charset=UTF-8");
 
-            // Attempt actual SMTP send if configured
             if (username != null && !username.isBlank()) {
                 Transport.send(message);
                 LOGGER.info("Email successfully delivered to " + toEmail);
@@ -167,7 +165,6 @@ public class EmailServiceImpl implements EmailService {
             return true;
         } catch (MessagingException e) {
             LOGGER.log(Level.WARNING, "Failed to send email via SMTP to " + toEmail + ": " + e.getMessage(), e);
-            // Return true so user flow is not broken in offline environments
             return false;
         }
     }

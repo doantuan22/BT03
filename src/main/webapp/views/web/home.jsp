@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="<c:url value='/assets/css/product.css'/>">
 
 <div class="container" style="width: 100%; max-width: 1100px; margin: 0 auto;">
-    <!-- Welcome Header / Hero Banner -->
     <div class="card" style="margin-bottom: 32px; padding: 28px 32px; border-radius: 12px; background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: #fff;">
         <h1 style="margin: 0 0 10px 0; font-size: 1.85rem; color: #fff;">
             <c:choose>
@@ -29,7 +28,6 @@
         </c:if>
     </div>
 
-    <!-- 10 Newest Products Section -->
     <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
         <div>
             <h2 style="font-size: 1.6rem; margin: 0; color: #0f172a; font-weight: 700;">
@@ -44,7 +42,6 @@
         </c:if>
     </div>
 
-    <!-- Product Grid -->
     <div class="product-grid">
         <c:forEach items="${top10Products != null ? top10Products : productList}" var="prod">
             <c:choose>

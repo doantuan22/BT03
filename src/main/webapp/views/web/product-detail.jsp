@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="<c:url value='/assets/css/product.css'/>">
 
 <div class="container" style="max-width: 1050px; margin: 0 auto; padding: 24px 0;">
-    <!-- Breadcrumb -->
     <nav style="margin-bottom: 20px; font-size: 0.9rem; color: #64748b;">
         <a href="<c:url value='/home'/>">Trang chủ</a> &rsaquo;
         <a href="<c:url value='/product'/>">Sản phẩm</a> &rsaquo;
@@ -18,9 +17,7 @@
         <span style="color: #111827; font-weight: 500;"><c:out value="${product.name}"/></span>
     </nav>
 
-    <!-- Product Detail Card -->
     <div class="card" style="padding: 36px; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); display: flex; gap: 40px; flex-wrap: wrap;">
-        <!-- Left: Image Box -->
         <div style="flex: 1; min-width: 300px; max-width: 440px; display: flex; flex-direction: column; align-items: center;">
             <c:choose>
                 <c:when test="${not empty product.imageUrl}">
@@ -34,7 +31,6 @@
             </c:choose>
         </div>
 
-        <!-- Right: Information Box -->
         <div style="flex: 1.5; min-width: 320px;">
             <div style="margin-bottom: 10px;">
                 <span class="badge-category" style="font-size: 0.85rem; padding: 4px 12px;">
@@ -54,7 +50,6 @@
 
             <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
 
-            <!-- Description -->
             <div>
                 <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: #374151; font-weight: 600;">Mô tả sản phẩm</h3>
                 <div style="line-height: 1.7; color: #4b5563; white-space: pre-line; background: #f8fafc; padding: 18px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 0.95rem;">
@@ -69,7 +64,6 @@
                 </div>
             </div>
 
-            <!-- Meta details -->
             <div style="margin-top: 20px; font-size: 0.85rem; color: #64748b;">
                 <p style="margin: 4px 0;">Slug: <code><c:out value="${product.slug}"/></code></p>
                 <c:if test="${not empty product.createdAt}">
@@ -77,7 +71,6 @@
                 </c:if>
             </div>
 
-            <!-- Action buttons -->
             <div style="margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap;">
                 <a class="btn btn-primary" href="<c:url value='/product'/>">Xem tất cả sản phẩm</a>
                 <a class="btn btn-outline" href="<c:url value='/home'/>">&larr; Quay lại trang chủ</a>
